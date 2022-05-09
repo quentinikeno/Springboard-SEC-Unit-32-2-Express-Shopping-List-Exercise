@@ -50,3 +50,27 @@ describe("GET /items/:name", () => {
 		expect(res.statusCode).toBe(400);
 	});
 });
+
+describe("Patch /items/:name", () => {
+	test("should update a single item", async () => {
+		const data = { name: "mega-blocks", price: 5.99 };
+		const res = await request(app).patch(`/items/${item.name}`).send(data);
+		expect(res.statusCode).toBe(200);
+		expect(res.body).toEqual({ item: data });
+	});
+	test("should not update an item when the item is not in the fakeDB", async () => {
+		const data = { name: "mega-blocks", price: 5.99 };
+		const res = await request(app).patch("/items/ham").send(data);
+		expect(res.statusCode).toBe(400);
+	});
+	test("should not update an item when name or price are not provided", async () => {
+		const data = { name: "waffles" };
+		const data2 = { price: 5.99 };
+		const res = await request(app).patch(`/items/${item.name}`).send(data);
+		expect(res.statusCode).toBe(400);
+		const res2 = await request(app)
+			.patch(`/items/${item.name}`)
+			.send(data2);
+		expect(res2.statusCode).toBe(400);
+	});
+});
