@@ -1,13 +1,10 @@
 const express = require("express");
 const app = express();
 const ExpressError = require("./ExpressError");
-const items = require("./fakeDB");
+const itemsRoutes = require("./routes/items");
 
 app.use(express.json());
-
-app.get("/", (req, res) => {
-	res.json(items);
-});
+app.use("/items", itemsRoutes);
 
 // 404 Error handler
 app.use((req, res, next) => {
