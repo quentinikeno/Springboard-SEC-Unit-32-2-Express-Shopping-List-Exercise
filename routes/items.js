@@ -20,4 +20,17 @@ router.post("/", (req, res, next) => {
 	}
 });
 
+router.get("/:name", (req, res, next) => {
+	try {
+		const foundItem = items.find((item) => item.name === req.body.name);
+		if (foundItem) {
+			return res.json({ item: foundItem });
+		} else {
+			throw new ExpressError("Item not found.", 400);
+		}
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;
