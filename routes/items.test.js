@@ -74,3 +74,15 @@ describe("Patch /items/:name", () => {
 		expect(res2.statusCode).toBe(400);
 	});
 });
+
+describe("Delete /items/:name", () => {
+	test("should delete a single item", async () => {
+		const res = await request(app).delete(`/items/${item.name}`);
+		expect(res.statusCode).toBe(200);
+		expect(res.body).toEqual({ message: "Item deleted." });
+	});
+	test("should not delete an item when the item is not in the fakeDB", async () => {
+		const res = await request(app).delete("/items/ham");
+		expect(res.statusCode).toBe(400);
+	});
+});
