@@ -21,3 +21,20 @@ describe("GET /items", () => {
 		expect(res.body).toEqual({ items: [item] });
 	});
 });
+
+describe("POST /items", () => {
+	test("should create a new item", async () => {
+		const data = { name: "waffles", price: 5.99 };
+		const res = await request(app).post("/items").send(data);
+		expect(res.statusCode).toBe(201);
+		expect(res.body).toEqual({ item: data });
+	});
+	test("should not create a new item when name or price are missing.", async () => {
+		const data = { name: "waffles" };
+		const data2 = { price: 5.99 };
+		const res = await request(app).post("/items").send(data);
+		expect(res.statusCode).toBe(400);
+		const res2 = await request(app).post("/items").send(data2);
+		expect(res2.statusCode).toBe(400);
+	});
+});
