@@ -47,7 +47,7 @@ describe("GET /items/:name", () => {
 	});
 	test("should respond with a 404 if item doesn't exist", async () => {
 		const res = await request(app).get("/items/oranges");
-		expect(res.statusCode).toBe(400);
+		expect(res.statusCode).toBe(404);
 	});
 });
 
@@ -61,7 +61,7 @@ describe("Patch /items/:name", () => {
 	test("should not update an item when the item is not in the fakeDB", async () => {
 		const data = { name: "mega-blocks", price: 5.99 };
 		const res = await request(app).patch("/items/ham").send(data);
-		expect(res.statusCode).toBe(400);
+		expect(res.statusCode).toBe(404);
 	});
 	test("should not update an item when name or price are not provided", async () => {
 		const data = { name: "waffles" };
@@ -83,6 +83,6 @@ describe("Delete /items/:name", () => {
 	});
 	test("should not delete an item when the item is not in the fakeDB", async () => {
 		const res = await request(app).delete("/items/ham");
-		expect(res.statusCode).toBe(400);
+		expect(res.statusCode).toBe(404);
 	});
 });

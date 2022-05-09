@@ -26,7 +26,7 @@ router.get("/:name", (req, res, next) => {
 		if (foundItem) {
 			return res.json({ item: foundItem });
 		} else {
-			throw new ExpressError("Item not found.", 400);
+			throw new ExpressError("Item not found.", 404);
 		}
 	} catch (error) {
 		next(error);
@@ -45,7 +45,7 @@ router.patch("/:name", (req, res, next) => {
 			foundItem.price = req.body.price;
 			return res.json({ item: foundItem });
 		} else {
-			throw new ExpressError("Item not found.", 400);
+			throw new ExpressError("Item not found.", 404);
 		}
 	} catch (error) {
 		next(error);
@@ -61,7 +61,7 @@ router.delete("/:name", (req, res, next) => {
 			items.splice(foundItem, 1);
 			return res.json({ message: "Item deleted." });
 		} else {
-			throw new ExpressError("Item not found.", 400);
+			throw new ExpressError("Item not found.", 404);
 		}
 	} catch (error) {
 		next(error);
