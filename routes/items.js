@@ -22,7 +22,7 @@ router.post("/", (req, res, next) => {
 
 router.get("/:name", (req, res, next) => {
 	try {
-		const foundItem = items.find((item) => item.name === req.body.name);
+		const foundItem = items.find((item) => item.name === req.params.name);
 		if (foundItem) {
 			return res.json({ item: foundItem });
 		} else {
