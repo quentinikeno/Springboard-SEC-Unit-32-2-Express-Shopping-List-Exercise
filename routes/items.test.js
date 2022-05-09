@@ -4,7 +4,7 @@ const request = require("supertest");
 const app = require("../app");
 let items = require("../fakeDB");
 
-const item = { name: "Lego", price: 10.99 };
+let item = { name: "lego", price: 10.99 };
 
 beforeEach(() => {
 	items.push(item);
@@ -36,5 +36,17 @@ describe("POST /items", () => {
 		expect(res.statusCode).toBe(400);
 		const res2 = await request(app).post("/items").send(data2);
 		expect(res2.statusCode).toBe(400);
+	});
+});
+
+describe("GET /items/:name", () => {
+	test("should get a single item", async () => {
+		const res = await request(app).get(`/items/${item.name}`);
+		expect(res.statusCode).toBe(200);
+		expect(res.body).toEqual({ item });
+	});
+	test("should respond with a 404 if item doesn't exist", async () => {
+		const res = await request(app).get("/items/oranges");
+		expect(res.statusCode).toBe(400);
 	});
 });
