@@ -33,4 +33,23 @@ router.get("/:name", (req, res, next) => {
 	}
 });
 
+router.patch("/:name", (req, res, next) => {
+	try {
+		const { name, price } = req.body;
+		if (!name) throw new ExpressError("Name is required", 400);
+		if (!price) throw new ExpressError("Price is required", 400);
+
+		const foundItem = items.find((item) => item.name === req.params.name);
+		if (foundItem) {
+			foundItem.name = req.body.name;
+			foundItem.price = req.body.price;
+			return res.json({ item: foundItem });
+		} else {
+			throw new ExpressError("Item not found.", 400);
+		}
+	} catch (error) {
+		next(error);
+	}
+});
+
 module.exports = router;
